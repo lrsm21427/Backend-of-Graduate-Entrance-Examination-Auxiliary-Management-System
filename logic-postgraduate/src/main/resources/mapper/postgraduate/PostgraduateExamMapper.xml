@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.postgraduate.mapper.PostgraduateExamMapper">
+
+    <resultMap type="PostgraduateExam" id="PostgraduateExamResult">
+        <result property="lineId"    column="line_id"    />
+        <result property="schoolId"    column="school_id"    />
+        <result property="year"    column="year"    />
+        <result property="schoolLink"    column="school_link"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="departmentLink"    column="department_link"    />
+        <result property="departmentName"    column="department_name"    />
+        <result property="majorId"    column="major_id"    />
+        <result property="majorLink"    column="major_link"    />
+        <result property="majorName"    column="major_name"    />
+        <result property="scoreTotal"    column="score_total"    />
+        <result property="scorePolitics"    column="score_politics"    />
+        <result property="scoreForeignLanguage"    column="score_foreign_language"    />
+        <result property="scoreSpecialized1"    column="score_specialized1"    />
+        <result property="scoreSpecialized2"    column="score_specialized2"    />
+    </resultMap>
+
+    <sql id="selectPostgraduateExamVo">
+        select line_id, school_id, year, school_link, school_name,
+               department_link, department_name, major_id, major_link,
+               major_name, score_total, score_politics, score_foreign_language,
+               score_specialized1, score_specialized2 from postgraduate_exam
+    </sql>
+
+    <sql id="selectPostgraduateExamVo1">
+        select major_name from postgraduate_exam
+    </sql>
+
+    <sql id="selectPostgraduateExamVo2">
+        select school_id from postgraduate_exam
+    </sql>
+
+    <select id="selectPostgraduateExamList" parameterType="PostgraduateExam" resultMap="PostgraduateExamResult">
+        <include refid="selectPostgraduateExamVo"/>
+        <where>
+            <if test="year != null "> and year = #{year}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="majorName != null  and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="selectMajorName" parameterType="String" resultMap="PostgraduateExamResult">
+        <include refid="selectPostgraduateExamVo1"/>
+        where major_name like concat('%',#{name},'%')
+    </select>
+
+    <select id="selectSchoolIdByMajor" parameterType="String" resultMap="PostgraduateExamResult">
+        <include refid="selectPostgraduateExamVo2"/>
+        where major_name = #{name}
+    </select>
+
+    <select id="selectPostgraduateExamByLineId" parameterType="Long" resultMap="PostgraduateExamResult">
+        <include refid="selectPostgraduateExamVo"/>
+        where line_id = #{lineId}
+    </select>
+
+
+    <select id="selectAreaScore" parameterType="Map" resultMap="PostgraduateExamResult">
+        select school_name,year,score_total,score_politics,score_foreign_language,score_specialized1,score_specialized2
+        from postgraduate_exam where FIND_IN_SET(school_name , #{schoolName}) and major_name = #{majorName}
+    </select>
+
+    <select id="selectAreaTreeScore" parameterType="String" resultMap="PostgraduateExamResult">
+        select year,school_name,score_total,score_politics,score_foreign_language,score_specialized1,score_specialized2
+        from postgraduate_exam where FIND_IN_SET(school_id , #{ids})
+    </select>
+
+    <insert id="insertPostgraduateExam" parameterType="PostgraduateExam">
+        insert into postgraduate_exam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="lineId != null">line_id,</if>
+            <if test="schoolId != null">school_id,</if>
+            <if test="year != null">year,</if>
+            <if test="schoolLink != null and schoolLink != ''">school_link,</if>
+            <if test="schoolName != null and schoolName != ''">school_name,</if>
+            <if test="departmentLink != null and departmentLink != ''">department_link,</if>
+            <if test="departmentName != null and departmentName != ''">department_name,</if>
+            <if test="majorId != null and majorId != ''">major_id,</if>
+            <if test="majorLink != null and majorLink != ''">major_link,</if>
+            <if test="majorName != null and majorName != ''">major_name,</if>
+            <if test="scoreTotal != null">score_total,</if>
+            <if test="scorePolitics != null">score_politics,</if>
+            <if test="scoreForeignLanguage != null">score_foreign_language,</if>
+            <if test="scoreSpecialized1 != null">score_specialized1,</if>
+            <if test="scoreSpecialized2 != null">score_specialized2,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="lineId != null">#{lineId},</if>
+            <if test="schoolId != null">#{schoolId},</if>
+            <if test="year != null">#{year},</if>
+            <if test="schoolLink != null and schoolLink != ''">#{schoolLink},</if>
+            <if test="schoolName != null and schoolName != ''">#{schoolName},</if>
+            <if test="departmentLink != null and departmentLink != ''">#{departmentLink},</if>
+            <if test="departmentName != null and departmentName != ''">#{departmentName},</if>
+            <if test="majorId != null and majorId != ''">#{majorId},</if>
+            <if test="majorLink != null and majorLink != ''">#{majorLink},</if>
+            <if test="majorName != null and majorName != ''">#{majorName},</if>
+            <if test="scoreTotal != null">#{scoreTotal},</if>
+            <if test="scorePolitics != null">#{scorePolitics},</if>
+            <if test="scoreForeignLanguage != null">#{scoreForeignLanguage},</if>
+            <if test="scoreSpecialized1 != null">#{scoreSpecialized1},</if>
+            <if test="scoreSpecialized2 != null">#{scoreSpecialized2},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePostgraduateExam" parameterType="PostgraduateExam">
+        update postgraduate_exam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="schoolId != null">school_id = #{schoolId},</if>
+            <if test="year != null">year = #{year},</if>
+            <if test="schoolLink != null and schoolLink != ''">school_link = #{schoolLink},</if>
+            <if test="schoolName != null and schoolName != ''">school_name = #{schoolName},</if>
+            <if test="departmentLink != null and departmentLink != ''">department_link = #{departmentLink},</if>
+            <if test="departmentName != null and departmentName != ''">department_name = #{departmentName},</if>
+            <if test="majorId != null and majorId != ''">major_id = #{majorId},</if>
+            <if test="majorLink != null and majorLink != ''">major_link = #{majorLink},</if>
+            <if test="majorName != null and majorName != ''">major_name = #{majorName},</if>
+            <if test="scoreTotal != null">score_total = #{scoreTotal},</if>
+            <if test="scorePolitics != null">score_politics = #{scorePolitics},</if>
+            <if test="scoreForeignLanguage != null">score_foreign_language = #{scoreForeignLanguage},</if>
+            <if test="scoreSpecialized1 != null">score_specialized1 = #{scoreSpecialized1},</if>
+            <if test="scoreSpecialized2 != null">score_specialized2 = #{scoreSpecialized2},</if>
+        </trim>
+        where line_id = #{lineId}
+    </update>
+
+    <delete id="deletePostgraduateExamByLineId" parameterType="Long">
+        delete from postgraduate_exam where line_id = #{lineId}
+    </delete>
+
+    <delete id="deletePostgraduateExamByLineIds" parameterType="String">
+        delete from postgraduate_exam where line_id in
+        <foreach item="lineId" collection="array" open="(" separator="," close=")">
+            #{lineId}
+        </foreach>
+    </delete>
+</mapper>

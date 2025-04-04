@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.recommend.mapper.InstitutionsExamMapper">
+    
+    <resultMap type="InstitutionsExam" id="InstitutionsExamResult">
+        <result property="schoolId"    column="school_id"    />
+        <result property="province"    column="province"    />
+        <result property="schoolName"    column="school_name"    />
+        <result property="type"    column="type"    />
+        <result property="publicOrPrivate"    column="public_or_private"    />
+        <result property="regularOrSpecial"    column="regular_or_special"    />
+        <result property="project985"    column="project_985"    />
+        <result property="project211"    column="project_211"    />
+        <result property="dfc"    column="dfc"    />
+        <result property="city"    column="city"    />
+        <result property="subordinate"    column="subordinate"    />
+        <result property="address"    column="address"    />
+    </resultMap>
+
+    <sql id="selectInstitutionsExamVo">
+        select school_id, province, school_name, type, public_or_private, regular_or_special, project_985, project_211, dfc, city, subordinate, address from university
+    </sql>
+
+    <select id="selectInstitutionsExamList" parameterType="InstitutionsExam" resultMap="InstitutionsExamResult">
+        <include refid="selectInstitutionsExamVo"/>
+        <where>  
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="publicOrPrivate != null "> and public_or_private = #{publicOrPrivate}</if>
+            <if test="regularOrSpecial != null "> and regular_or_special = #{regularOrSpecial}</if>
+            <if test="project985 != null "> and project_985 = #{project985}</if>
+            <if test="project211 != null "> and project_211 = #{project211}</if>
+            <if test="dfc != null "> and dfc = #{dfc}</if>
+            <if test="city != null  and city != ''"> and city like concat('%', #{city}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectInstitutionsExamBySchoolId" parameterType="Long" resultMap="InstitutionsExamResult">
+        <include refid="selectInstitutionsExamVo"/>
+        where school_id = #{schoolId}
+    </select>
+        
+    <insert id="insertInstitutionsExam" parameterType="InstitutionsExam">
+        insert into university
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">school_id,</if>
+            <if test="province != null">province,</if>
+            <if test="schoolName != null">school_name,</if>
+            <if test="type != null">type,</if>
+            <if test="publicOrPrivate != null">public_or_private,</if>
+            <if test="regularOrSpecial != null">regular_or_special,</if>
+            <if test="project985 != null">project_985,</if>
+            <if test="project211 != null">project_211,</if>
+            <if test="dfc != null">dfc,</if>
+            <if test="city != null">city,</if>
+            <if test="subordinate != null">subordinate,</if>
+            <if test="address != null">address,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="schoolId != null">#{schoolId},</if>
+            <if test="province != null">#{province},</if>
+            <if test="schoolName != null">#{schoolName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="publicOrPrivate != null">#{publicOrPrivate},</if>
+            <if test="regularOrSpecial != null">#{regularOrSpecial},</if>
+            <if test="project985 != null">#{project985},</if>
+            <if test="project211 != null">#{project211},</if>
+            <if test="dfc != null">#{dfc},</if>
+            <if test="city != null">#{city},</if>
+            <if test="subordinate != null">#{subordinate},</if>
+            <if test="address != null">#{address},</if>
+         </trim>
+    </insert>
+
+    <update id="updateInstitutionsExam" parameterType="InstitutionsExam">
+        update university
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="province != null">province = #{province},</if>
+            <if test="schoolName != null">school_name = #{schoolName},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="publicOrPrivate != null">public_or_private = #{publicOrPrivate},</if>
+            <if test="regularOrSpecial != null">regular_or_special = #{regularOrSpecial},</if>
+            <if test="project985 != null">project_985 = #{project985},</if>
+            <if test="project211 != null">project_211 = #{project211},</if>
+            <if test="dfc != null">dfc = #{dfc},</if>
+            <if test="city != null">city = #{city},</if>
+            <if test="subordinate != null">subordinate = #{subordinate},</if>
+            <if test="address != null">address = #{address},</if>
+        </trim>
+        where school_id = #{schoolId}
+    </update>
+
+    <delete id="deleteInstitutionsExamBySchoolId" parameterType="Long">
+        delete from university where school_id = #{schoolId}
+    </delete>
+
+    <delete id="deleteInstitutionsExamBySchoolIds" parameterType="String">
+        delete from university where school_id in 
+        <foreach item="schoolId" collection="array" open="(" separator="," close=")">
+            #{schoolId}
+        </foreach>
+    </delete>
+</mapper>
