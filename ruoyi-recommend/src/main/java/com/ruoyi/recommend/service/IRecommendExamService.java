@@ -25,7 +25,15 @@ public interface IRecommendExamService
      * @param recommendExam 考研历年具体分数信息
      * @return 考研历年具体分数信息集合
      */
-    public List<RecommendExam> selectRecommendExamList(RecommendExam recommendExam);
+    public List<RecommendExam> selectRecommendExamList(RecommendExam recommendExam);    
+    
+    /**
+     * 查询考研历年具体分数信息列表
+     * 
+     * @param recommendExam 考研历年具体分数信息
+     * @return 考研历年具体分数信息集合
+     */
+    public List<RecommendExam> selectRecommendExamListAry(RecommendExam recommendExam);
 
     /**
      * 新增考研历年具体分数信息

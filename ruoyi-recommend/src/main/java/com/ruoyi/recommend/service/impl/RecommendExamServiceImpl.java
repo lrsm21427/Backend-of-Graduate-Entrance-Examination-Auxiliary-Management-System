@@ -42,6 +42,16 @@ public class RecommendExamServiceImpl implements IRecommendExamService
     {
         return recommendExamMapper.selectRecommendExamList(recommendExam);
     }
+/**
+     * 范围查询考研历年具体分数信息列表
+     * 
+     * @param recommendExam 考研历年具体分数信息
+     * @return 考研历年具体分数信息
+     */
+    @Override
+    public List<RecommendExam> selectRecommendExamListAry(RecommendExam recommendExam) {
+        return recommendExamMapper.selectRecommendExamListAry(recommendExam);
+    }
 
     /**
      * 新增考研历年具体分数信息

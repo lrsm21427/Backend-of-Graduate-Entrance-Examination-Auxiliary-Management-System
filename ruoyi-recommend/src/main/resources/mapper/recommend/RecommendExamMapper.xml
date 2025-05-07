@@ -36,6 +36,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="scoreTotal != null "> and score_total &gt;= #{scoreTotal}</if>
         </where>
     </select>
+
+    <select id="selectRecommendExamListAry" parameterType="RecommendExam" resultMap="RecommendExamResult">
+        <include refid="selectRecommendExamVo"/>
+        <where>
+            <if test="year != null "> and year = #{year}</if>
+            <if test="schoolName != null  and schoolName != ''"> and school_name like concat('%', #{schoolName}, '%')</if>
+            <if test="departmentName != null  and departmentName != ''"> and department_name like concat('%', #{departmentName}, '%')</if>
+            <if test="majorName != null  and majorName != ''"> and major_name like concat('%', #{majorName}, '%')</if>
+            <if test="scoreTotal != null and scoreMax == null">
+                and score_total between #{scoreTotal} and #{scoreTotal}+20
+            </if>
+        </where>
+    </select>
     
     <select id="selectRecommendExamByLineId" parameterType="Long" resultMap="RecommendExamResult">
         <include refid="selectRecommendExamVo"/>

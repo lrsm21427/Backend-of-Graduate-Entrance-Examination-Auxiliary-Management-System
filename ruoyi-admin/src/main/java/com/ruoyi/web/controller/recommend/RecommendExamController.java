@@ -34,6 +34,13 @@ public class RecommendExamController extends BaseController
     @Autowired
     private IRecommendExamService recommendExamService;
 
+    @PreAuthorize("@ss.hasPermi('recommend:exam:list')")
+    @GetMapping("/listAry")
+    public TableDataInfo listAry(RecommendExam recommendExam) {
+        startPage();
+        List<RecommendExam> list = recommendExamService.selectRecommendExamListAry(recommendExam);
+        return getDataTable(list);
+    }
     /**
      * 查询考研历年具体分数信息列表
      */

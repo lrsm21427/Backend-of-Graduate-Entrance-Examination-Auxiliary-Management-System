@@ -20,6 +20,14 @@ public interface RecommendExamMapper
     public RecommendExam selectRecommendExamByLineId(Long lineId);
 
     /**
+     * 查询考研历年具体分数信息列表（带分数范围）
+     *
+     * @param recommendExam 查询条件
+     * @return 分数信息列表
+     */
+    public List<RecommendExam> selectRecommendExamListAry(RecommendExam recommendExam);
+    
+    /**
      * 查询考研历年具体分数信息列表
      * 
      * @param recommendExam 考研历年具体分数信息

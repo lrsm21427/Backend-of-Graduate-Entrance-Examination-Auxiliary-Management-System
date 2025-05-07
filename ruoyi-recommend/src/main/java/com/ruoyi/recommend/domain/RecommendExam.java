@@ -59,6 +59,10 @@ public class RecommendExam extends BaseEntity
     @Excel(name = "总分")
     private Long scoreTotal;
 
+    /** 最高分（用于范围查询） */
+    @Excel(name = "最高分")    
+    private Long scoreMax;
+    
     /** 政治分数 */
     @Excel(name = "政治分数")
     private Long scorePolitics;
@@ -174,6 +178,15 @@ public class RecommendExam extends BaseEntity
     {
         return scoreTotal;
     }
+    public void setScoreMax(Long scoreMax) 
+    {
+        this.scoreMax = scoreMax;
+    }
+
+    public Long getScoreMax() 
+    {
+        return scoreMax;
+    }
     public void setScorePolitics(Long scorePolitics) 
     {
         this.scorePolitics = scorePolitics;
@@ -225,6 +238,7 @@ public class RecommendExam extends BaseEntity
             .append("majorLink", getMajorLink())
             .append("majorName", getMajorName())
             .append("scoreTotal", getScoreTotal())
+            .append("scoreMax", getScoreMax())
             .append("scorePolitics", getScorePolitics())
             .append("scoreForeignLanguage", getScoreForeignLanguage())
             .append("scoreSpecialized1", getScoreSpecialized1())
